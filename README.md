@@ -6,19 +6,19 @@ The Console is a program that provides a user interface for interacting with an 
 ### To start the command interpreter, follow these steps:
 
 1. Clone the repository to your local machine:
-
+```
 git clone [https://github.com/EzzeddinEss/AirBnB_clone.git]
 ```
 
 2. Navigate to the Directory:
-
+```
 [$ cd AirBnB_clone]
 ```
 
 3. Start the command interpreter:
-
-[./console.py]
-
+```
+[$ ./console.py]
+```
 
 # Usage
 Once the command interpreter is running, you can enter commands by typing them into the provided interface. Here are some examples of how to use the command interpreter:

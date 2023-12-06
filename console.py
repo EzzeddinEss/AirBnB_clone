@@ -24,9 +24,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, line):
         '''
-        Quit from the interpreter.
-
-        Usage: quit
+        Quit command to exit the program
         '''
         return True
 

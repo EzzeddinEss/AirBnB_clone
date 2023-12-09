@@ -15,24 +15,23 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb)'
 
     def do_EOF(self, line):
-        '''
-        Exit from the interpreter.
-
-        Usage: EOF
-        '''
+        """
+        EOF command to exit the program
+        """
+        print()
         return True
 
     def do_quit(self, line):
-        '''
+        """
         Quit command to exit the program
-        '''
+        """
         return True
 
-    def EmptyLine(self):
-        '''
+    def emptyline(self):
+        """
         Called when the user inserts an empty line.
         It does nothing in this case.
-        '''
+        """
         pass
 
 

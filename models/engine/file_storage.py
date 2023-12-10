@@ -2,10 +2,14 @@
 """
 FileStorage module
 """
-import os
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class FileStorage:
@@ -44,16 +48,24 @@ class FileStorage:
         """
         Reloads objects from the JSON file into the FileStorage.
         """
-        if os.path.exists(FileStorage.__file_path):
+        class_map = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "Place": Place,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Review": Review
+        }
+
+        try:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as file:
                 deserialized_file = json.load(file)
-                for key, val in deserialized_file.items():
+                for val in deserialized_file.values():
                     clss_name = val["__class__"]
-                    if clss_name == "User":
-                        obj_class = User
-                    else:
-                        obj_class = BaseModel
+                    del val["__class__"]
+                    obj_class = class_map.get(clss_name, BaseModel)
                     obj = obj_class(**val)
-                    FileStorage.__objects[key] = obj
-        else:
-            pass
+                    self.new(obj)
+        except FileNotFoundError:
+            return

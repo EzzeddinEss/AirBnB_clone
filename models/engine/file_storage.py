@@ -2,11 +2,10 @@
 """
 FileStorage module
 """
-
-
 import os
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -35,11 +34,11 @@ class FileStorage:
         """
         Saves all objects in the FileStorage to the JSON file.
         """
-        py_obj = {}
+        ser_obj = {}
         for key, val in FileStorage.__objects.items():
-            py_obj[key] = val.to_dict()
+            ser_obj[key] = val.to_dict()
         with open(FileStorage.__file_path, mode='w', encoding="utf-8") as file:
-            json.dump(py_obj, file)
+            json.dump(ser_obj, file)
 
     def reload(self):
         """
@@ -50,7 +49,11 @@ class FileStorage:
                 deserialized_file = json.load(file)
                 for key, val in deserialized_file.items():
                     clss_name = val["__class__"]
-                    obj = eval(clss_name)(**val)
+                    if clss_name == "User":
+                        obj_class = User
+                    else:
+                        obj_class = BaseModel
+                    obj = obj_class(**val)
                     FileStorage.__objects[key] = obj
         else:
             pass

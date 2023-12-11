@@ -70,14 +70,7 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in self.valid_classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
-            instances = []
-            for obj_key, obj in models.storage.all().items():
-                if obj.__class__.__name__ == args[0]:
-                    instances.append(str(obj))
-            if not instances:
-                print("** instance id missing **")
-            else:
-                print(instances)
+            print("** instance id missing **")
         else:
             insts_key = f'{args[0]}.{args[1]}'
             obj_dict = models.storage.all()

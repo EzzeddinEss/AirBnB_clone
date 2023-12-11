@@ -48,24 +48,26 @@ class FileStorage:
         """
         Reloads objects from the JSON file into the FileStorage.
         """
-        class_map = {
-            "BaseModel": BaseModel,
-            "User": User,
-            "Place": Place,
-            "State": State,
-            "City": City,
-            "Amenity": Amenity,
-            "Review": Review
-        }
+        mod_classes = [
+            BaseModel,
+            User,
+            Place,
+            State,
+            City,
+            Amenity,
+            Review
+        ]
 
         try:
             with open(FileStorage.__file_path, 'r', encoding="utf-8") as file:
                 deserialized_file = json.load(file)
-                for val in deserialized_file.values():
+                for key, val in deserialized_file.items():
                     clss_name = val["__class__"]
-                    del val["__class__"]
-                    obj_class = class_map.get(clss_name, BaseModel)
-                    obj = obj_class(**val)
-                    self.new(obj)
+                    for mod_cls in mod_classes:
+                        if mod_cls.__name__ == clss_name:
+                            obj = mod_cls(**val)
+                            key = f"{clss_name}.{obj.id}"
+                            self.new(obj)
+                            break
         except FileNotFoundError:
             return
